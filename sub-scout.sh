@@ -26,7 +26,7 @@ _\ \| |_| || |_) | _\ \| (__| (_) || |_| || |_
 
 # building required directories
 
-seprator_dir="$main_dir/seprator"
+seperator_dir="$main_dir/seperator"
 rule_dir="$main_dir/rules"
 permutation_dir="$main_dir/permutation"
 lives_dir="$main_dir/live_domain"
@@ -34,10 +34,10 @@ gowitness_dir="$main_dir/gowitness_output"
 wayback_dir="$main_dir/wayback"
 js_dir="$main_dir/javascript"
 
-if [ ! -d "$seprator_dir" ] || [ ! -d "$rule_dir" ] || [ ! -d "$permutation_dir" ] || [ ! -d "$lives_dir" ] || [ ! -d "$gowitness_dir" ] || [ ! -d "$wayback_dir" ] || [ ! -d "$js_dir" ]; then
+if [ ! -d "$seperator_dir" ] || [ ! -d "$rule_dir" ] || [ ! -d "$permutation_dir" ] || [ ! -d "$lives_dir" ] || [ ! -d "$gowitness_dir" ] || [ ! -d "$wayback_dir" ] || [ ! -d "$js_dir" ]; then
 	
-	if [ ! -d "$seprator_dir" ]; then
-    		mkdir "$seprator_dir"
+	if [ ! -d "$seperator_dir" ]; then
+    		mkdir "$seperator_dir"
   	fi
   	if [ ! -d "$rule_dir" ]; then
 	    	mkdir "$rule_dir"
@@ -77,16 +77,16 @@ time=$(date +%T)
 echo -e "[$time] \033[34mSuccess !\033[0m"
 
 
-# building seprator file
+# building seperator file
 echo
 time=$(date +%T)
-echo -e "[$time] \033[32mGenerating Seprator file from scope\033[0m"
+echo -e "[$time] \033[32mGenerating seperator file from scope\033[0m"
 suffixes=($(cat $scope_list))
 for suffix in "${suffixes[@]}"; do
   subdomain_content=($(cat $subdomain_list))
   for contents in "${subdomain_content[@]}"; do
     new_contents="$contents$suffix"
-    echo "$new_contents" >> "$seprator_dir/$suffix"
+    echo "$new_contents" >> "$seperator_dir/$suffix"
   done
 done
 time=$(date +%T)
@@ -96,12 +96,12 @@ echo -e "[$time] \033[34mSuccess !\033[0m"
 echo
 time=$(date +%T)
 echo -e "[$time] \033[32mBuilding Rules using regulator\033[0m"
-seprator_file_list=$(ls -1p "$seprator_dir")
-IFS=$'\n' read -r -d '' -a seprator_file_array <<< "$seprator_file_list"
-for seprator_file_name in "${seprator_file_array[@]}"; do
-  base_name=${seprator_file_name}
-  sub_remove=${seprator_file_name%.sub}
-  python3 main.py $base_name $seprator_dir/$base_name $rule_dir/$sub_remove
+seperator_file_list=$(ls -1p "$seperator_dir")
+IFS=$'\n' read -r -d '' -a seperator_file_array <<< "$seperator_file_list"
+for seperator_file_name in "${seperator_file_array[@]}"; do
+  base_name=${seperator_file_name}
+  sub_remove=${seperator_file_name%.sub}
+  python3 main.py $base_name $seperator_dir/$base_name $rule_dir/$sub_remove
    printf "Processing... ${loading_characters[${#loading_characters[@]}]} \r"
 done
 time=$(date +%T)
@@ -194,7 +194,7 @@ echo -e "[$time] \033[34mSuccess !\033[0m"
 #Removing unwanted directories
 rm -r $rule_dir
 rm -r $permutation_dir
-rm -r $seprator_dir
+rm -r $seperator_dir
 
 echo
 time=$(date +%T)
