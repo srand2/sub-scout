@@ -30,11 +30,11 @@ seprator_dir="$main_dir/seprator"
 rule_dir="$main_dir/rules"
 permutation_dir="$main_dir/permutation"
 lives_dir="$main_dir/live_domain"
-aquatone_dir="$main_dir/aquatone_output"
+gowitness_dir="$main_dir/gowitness_output"
 wayback_dir="$main_dir/wayback"
 js_dir="$main_dir/javascript"
 
-if [ ! -d "$seprator_dir" ] || [ ! -d "$rule_dir" ] || [ ! -d "$permutation_dir" ] || [ ! -d "$lives_dir" ] || [ ! -d "$aquatone_dir" ] || [ ! -d "$wayback_dir" ] || [ ! -d "$js_dir" ]; then
+if [ ! -d "$seprator_dir" ] || [ ! -d "$rule_dir" ] || [ ! -d "$permutation_dir" ] || [ ! -d "$lives_dir" ] || [ ! -d "$gowitness_dir" ] || [ ! -d "$wayback_dir" ] || [ ! -d "$js_dir" ]; then
 	
 	if [ ! -d "$seprator_dir" ]; then
     		mkdir "$seprator_dir"
@@ -48,8 +48,8 @@ if [ ! -d "$seprator_dir" ] || [ ! -d "$rule_dir" ] || [ ! -d "$permutation_dir"
   	if [ ! -d "$lives_dir" ]; then
     		mkdir "$lives_dir"
   	fi
-  	if [ ! -d "$aquatone_dir" ]; then
-    		mkdir "$aquatone_dir"
+  	if [ ! -d "$gowitness_dir" ]; then
+    		mkdir "$gowitness_dir"
   	fi
   	if [ ! -d "$wayback_dir" ]; then
     		mkdir "$wayback_dir"
@@ -121,7 +121,7 @@ time=$(date +%T)
 echo -e "[$time] \033[34mSuccess !\033[0m"
 
 
-# Dwnloding DNS resolver list from . You can also provide your own DNS resolver list you dont want to download from public repo for ssecurity reason"
+# Downloading DNS resolver list from . You can also provide your own DNS resolver list you dont want to download from public repo for ssecurity reason"
 # To provide you own dns resolver list save your reslover list with name 'resolver.txt' in output directory prior to running this script.
 echo
 echo -e "[$time] \033[32mDownloding DNS resolver file\033[0m"
@@ -159,12 +159,12 @@ time=$(date +%T)
 echo -e "[$time] \033[34mSuccess !\033[0m"
 
 
-# Running  aquatone
+# Running  gowitness
 time=$(date +%T)
 echo
-echo -e "[$time] \033[32mRunning Aqauatone\033[0m"
-cat $lives_dir/subdomains_resolved_httpx.txt | sort -u > $lives_dir/aquatone_process_domains.txt
-cat $lives_dir/aquatone_process_domains.txt | aquatone -silent -out $aquatone_dir
+echo -e "[$time] \033[32mRunning gowitness\033[0m"
+cat $lives_dir/subdomains_resolved_httpx.txt | sort -u > $lives_dir/gowitness_process_domains.txt
+docker run --rm -v $(pwd):/data leonjza/gowitness gowitness file -f $lives_dir/gowitness_process_domains.txt
 time=$(date +%T)
 echo -e "[$time] \033[34mSuccess !\033[0m"
 
